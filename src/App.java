@@ -7,6 +7,15 @@ public class App {
 
   public static void main(String[] args) throws Exception {
     Scanner sc = new Scanner(System.in);
+
+    //Nesse cod eu dei uma melhorada aki no programa principal
+    //pq deleguei a logica de validaçao para a class Reservation
+
+    //Vale resaltar ainda que ainda temos um poblema, ainda tem validaçoa
+    //que esta sendo feita aki no programa principal que e na hora de estanciar o projeto
+    //essa ainda nao vai ter como tirar do programa principal pq ela deveria ser uma validaçao
+    //no costrutor e o construtor nao tem como eu colocar ele para retornar um string
+
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     System.out.println("=======================");
     System.out.print("Numero do quarto: ");
@@ -36,19 +45,11 @@ public class App {
       checkout = sdf.parse(sc.next());
       System.out.println("=======================");
 
-      Date now = new Date();
-
-      if (checkin.before(now) || checkout.before(now)) {
-        System.out.println(
-          "Erro na reserva: As datas da reserva Para atualizar devem ser datas futuras!"
-        );
-      } else if (!checkout.after(checkin)) {
-        System.out.println(
-          "Erro na reserva: a data de check-out deve ser posterior à data de check-in "
-        );
+      //Esse metodo e responsavel para atualizar as datas
+      String error = reservation.updateDates(checkin, checkout);
+      if (error != null) {
+        System.out.println("Erro na reserva: " + error);
       } else {
-        //Esse metodo e responsavel para atualizar as datas
-        reservation.updateDates(checkin, checkout);
         System.out.println("reservation: " + reservation);
       }
     }
